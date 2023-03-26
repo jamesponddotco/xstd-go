@@ -1,0 +1,16 @@
+---
+image: 'archlinux'
+packages:
+  - 'go'
+sources:
+  - 'https://git.sr.ht/~jamesponddotco/xstd-go'
+tasks:
+  - init: |
+      cd xstd-go
+      make init
+  - lint: |
+      cd xstd-go
+      make lint
+  - test: |
+      cd xstd-go
+      make test
