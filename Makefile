@@ -6,7 +6,6 @@ GO?=go
 all: init lint vulnerabilities
 
 init: # Downloads and verifies project dependencies and tooling.
-	$(GO) get
 	$(GO) install mvdan.cc/gofumpt@v0.4.0
 	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
 	$(GO) install golang.org/x/vuln/cmd/govulncheck@latest
