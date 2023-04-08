@@ -1,5 +1,7 @@
 # xstd
 
+[![Go Documentation](https://godocs.io/git.sr.ht/~jamesponddotco/xstd-go?status.svg)](https://godocs.io/git.sr.ht/~jamesponddotco/xstd-go)
+
 `xstd` is a collection of small extensions to Go's standard library that
 should help me reduce code duplication.
 
