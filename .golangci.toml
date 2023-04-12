@@ -307,8 +307,11 @@ max-same-issues = 0
     linters = [
       "containedctx",
       "contextcheck",
+      "dupl",
+      "errcheck",
       "funlen",
       "gochecknoglobals",
+      "goerr113",
       "nilerr",
       "noctx",
       "varnamelen",
@@ -318,3 +321,7 @@ max-same-issues = 0
   [[issues.exclude-rules]]
     path = "_test.go"
     text = "fieldalignment"
+
+  [[issues.exclude-rules]]
+    path = "_test.go"
+    text = "nested-structs"
