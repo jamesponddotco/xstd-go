@@ -1,0 +1,18 @@
+---
+image: 'archlinux'
+packages:
+  - 'go'
+  - 'make'
+sources:
+  - https://git.sr.ht/~jamesponddotco/xstd-go
+tasks:
+  - setup: |
+      cd xstd-go
+      make init
+  - lint: |
+      cd xstd-go
+      export PATH="${HOME}/go/bin:${PATH}"
+      make lint
+  - test: |
+      cd xstd-go
+      make test
