@@ -2,6 +2,7 @@
 
 [![Go Documentation](https://godocs.io/git.sr.ht/~jamesponddotco/xstd-go?status.svg)](https://godocs.io/git.sr.ht/~jamesponddotco/xstd-go)
 [![Go Report Card](https://goreportcard.com/badge/git.sr.ht/~jamesponddotco/xstd-go)](https://goreportcard.com/report/git.sr.ht/~jamesponddotco/xstd-go)
+[![builds.sr.ht status](https://builds.sr.ht/~jamesponddotco/xstd-go.svg)](https://builds.sr.ht/~jamesponddotco/xstd-go?)
 
 `xstd` is a collection of small extensions to Go's standard library that
 should help me reduce code duplication.
