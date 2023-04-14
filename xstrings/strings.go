@@ -40,7 +40,7 @@ func Remove(str, set string) string {
 
 	var builder strings.Builder
 
-	builder.Grow(len(str) - len(set))
+	builder.Grow(max(len(str)-len(set), 0))
 
 	for _, r := range str {
 		if !strings.ContainsRune(set, r) {
@@ -71,4 +71,13 @@ func Join(str ...string) string {
 	}
 
 	return xunsafe.BytesToString(buff)
+}
+
+// max returns the larger of two integers.
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
 }
