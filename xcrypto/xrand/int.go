@@ -3,6 +3,7 @@ package xrand
 import (
 	"crypto/rand"
 	"encoding/binary"
+	"io"
 
 	"golang.org/x/crypto/chacha20"
 )
@@ -14,19 +15,24 @@ func Int63() int64 {
 }
 
 // IntChaChaCha returns a cryptographically secure random integer in the range
-// [0, n) using the ChaCha20 stream cipher.
-func IntChaChaCha(n int) int {
+// [0, n) using the ChaCha20 stream cipher. If the provided io.Reader is nil,
+// it defaults to using crypto/rand.Reader.
+func IntChaChaCha(n int, reader io.Reader) int {
+	if reader == nil {
+		reader = rand.Reader
+	}
+
 	var (
 		key   = make([]byte, 32)
 		nonce = make([]byte, 12)
 	)
 
-	_, err := rand.Read(key)
+	_, err := io.ReadFull(reader, key)
 	if err != nil {
 		panic(err)
 	}
 
-	_, err = rand.Read(nonce)
+	_, err = io.ReadFull(reader, nonce)
 	if err != nil {
 		panic(err)
 	}
