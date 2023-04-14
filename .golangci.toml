@@ -60,7 +60,6 @@ enable = [
   "usestdlibvars",
   "unparam",
   "unused",
-  "varnamelen",
   "wastedassign",
   "wrapcheck",
   "wsl"
