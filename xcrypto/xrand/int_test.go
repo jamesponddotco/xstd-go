@@ -67,7 +67,7 @@ func TestIntChaChaCha(t *testing.T) {
 				}()
 			}
 
-			got := xrand.IntChaChaCha(tt.n)
+			got := xrand.IntChaChaCha(tt.n, nil)
 
 			if got < 0 || got >= tt.n {
 				t.Errorf("IntChaChaCha(%d) = %d; want in range [0, %d)", tt.n, got, tt.n)

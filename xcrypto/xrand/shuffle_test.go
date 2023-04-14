@@ -46,7 +46,7 @@ func TestShuffle(t *testing.T) {
 			original := make([]string, len(tt.str))
 			copy(original, tt.str)
 
-			xrand.Shuffle(tt.str)
+			xrand.Shuffle(tt.str, nil)
 
 			// Test that the length of the original and shuffled slices are equal
 			if len(original) != len(tt.str) {

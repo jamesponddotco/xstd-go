@@ -311,6 +311,7 @@ max-same-issues = 0
       "funlen",
       "gochecknoglobals",
       "goerr113",
+      "makezero",
       "nilerr",
       "noctx",
       "varnamelen",
