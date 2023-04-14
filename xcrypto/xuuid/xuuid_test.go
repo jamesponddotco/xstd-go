@@ -2,11 +2,14 @@ package xuuid_test
 
 import (
 	"crypto/rand"
+	"sync"
 	"testing"
 
 	"git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xuuid"
 	"git.sr.ht/~jamesponddotco/xstd-go/xerrors"
 )
+
+var randReaderMu sync.Mutex
 
 func TestUUID(t *testing.T) {
 	t.Parallel()
@@ -34,11 +37,20 @@ func TestUUID(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
+			randReaderMu.Lock()
+
 			// Mock the rand.Reader if needed.
 			if tt.genError != nil {
 				randReaderOrig := rand.Reader
-				defer func() { rand.Reader = randReaderOrig }()
+				defer func() {
+					rand.Reader = randReaderOrig
+
+					randReaderMu.Unlock()
+				}()
+
 				rand.Reader = errorReader{err: tt.genError}
+			} else {
+				defer randReaderMu.Unlock()
 			}
 
 			uuid, err := xuuid.New()
