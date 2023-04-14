@@ -1,6 +1,10 @@
 package xstrings
 
-import "strings"
+import (
+	"strings"
+
+	"git.sr.ht/~jamesponddotco/xstd-go/xunsafe"
+)
 
 const (
 	LowercaseLetters string = "abcdefghijklmnopqrstuvwxyz"
@@ -45,4 +49,26 @@ func Remove(str, set string) string {
 	}
 
 	return builder.String()
+}
+
+// Join concatenates strings to create a single string faster than
+// strings.Join().
+func Join(str ...string) string {
+	length := len(str)
+
+	if length == 0 {
+		return ""
+	}
+
+	n := 0
+	for i := 0; i < length; i++ {
+		n += len(str[i])
+	}
+
+	buff := make([]byte, 0, n)
+	for i := 0; i < length; i++ {
+		buff = append(buff, str[i]...)
+	}
+
+	return xunsafe.BytesToString(buff)
 }
