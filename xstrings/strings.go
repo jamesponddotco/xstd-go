@@ -27,3 +27,22 @@ func ContainsOnly(s, set string) bool {
 
 	return true
 }
+
+// Remove returns a copy of the string with all occurrences of the given characters removed.
+func Remove(str, set string) string {
+	if str == "" {
+		return ""
+	}
+
+	var builder strings.Builder
+
+	builder.Grow(len(str) - len(set))
+
+	for _, r := range str {
+		if !strings.ContainsRune(set, r) {
+			builder.WriteRune(r)
+		}
+	}
+
+	return builder.String()
+}
