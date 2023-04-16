@@ -148,3 +148,46 @@ func TestJoin(t *testing.T) {
 		})
 	}
 }
+
+func TestJoinWithSeparator(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name   string
+		sep    string
+		str    []string
+		result string
+	}{
+		{
+			name:   "EmptySlice",
+			sep:    "",
+			str:    []string{},
+			result: "",
+		},
+		{
+			name:   "SingleString",
+			sep:    "",
+			str:    []string{"Hello"},
+			result: "Hello",
+		},
+		{
+			name:   "Multiple strings",
+			sep:    " ",
+			str:    []string{"Hello", "World", "!"},
+			result: "Hello World !",
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			result := xstrings.JoinWithSeparator(tt.sep, tt.str...)
+			if result != tt.result {
+				t.Errorf("Expected %q, got %q", tt.result, result)
+			}
+		})
+	}
+}

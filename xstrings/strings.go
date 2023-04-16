@@ -73,6 +73,33 @@ func Join(str ...string) string {
 	return xunsafe.BytesToString(buff)
 }
 
+// JoinWithSeparator concatenates strings to create a single string with a separator between each string.
+func JoinWithSeparator(separator string, str ...string) string {
+	length := len(str)
+
+	if length == 0 {
+		return ""
+	}
+
+	n := 0
+	for i := 0; i < length; i++ {
+		n += len(str[i])
+	}
+
+	n += len(separator) * (length - 1)
+
+	buff := make([]byte, 0, n)
+	for i := 0; i < length; i++ {
+		buff = append(buff, str[i]...)
+
+		if i < length-1 {
+			buff = append(buff, separator...)
+		}
+	}
+
+	return xunsafe.BytesToString(buff)
+}
+
 // max returns the larger of two integers.
 func max(a, b int) int {
 	if a > b {
