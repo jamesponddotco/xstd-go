@@ -43,7 +43,7 @@ func TestShuffle(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			original := make([]string, len(tt.str))
+			original := make([]string, len(tt.str)) //nolint:makezero // @TODO: make zeroed
 			copy(original, tt.str)
 
 			xrand.Shuffle(tt.str, nil)
@@ -55,7 +55,7 @@ func TestShuffle(t *testing.T) {
 
 			// Test that the shuffled slice still contains the same elements as the original
 			sort.Strings(original)
-			sortedShuffled := make([]string, len(tt.str))
+			sortedShuffled := make([]string, len(tt.str)) //nolint:makezero // @TODO: make zeroed
 			copy(sortedShuffled, tt.str)
 			sort.Strings(sortedShuffled)
 
