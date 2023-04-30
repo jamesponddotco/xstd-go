@@ -28,6 +28,6 @@ test/coverage: # Generates a coverage profile and open it in a browser.
 	$(GO) tool cover -html=cover.out
 
 clean: # Cleans cache files from tests and deletes any build output.
-	$(GO) clean -cache -fuzzcache -testcache ./...
+	$(GO) clean -cache -fuzzcache -testcache
 
 .PHONY: all init fmt lint vulnerabilities test test/coverage clean
