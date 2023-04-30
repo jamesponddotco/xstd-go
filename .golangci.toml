@@ -1,7 +1,5 @@
 [run]
-skip-dirs = [
-  ".tmp",
-]
+skip-dirs = [".tmp"]
 skip-dirs-use-default = "false"
 modules-download-mode = "readonly"
 go = "1.20"
@@ -9,6 +7,7 @@ go = "1.20"
 [linters]
 disable-all = true
 enable = [
+  "asasalint",
   "asciicheck",
   "bidichk",
   "bodyclose",
@@ -26,8 +25,11 @@ enable = [
   "forbidigo",
   "forcetypeassert",
   "gci",
+  "gocheckcompilerdirectives",
   "gochecknoglobals",
   "gochecknoinits",
+  "gocognit",
+  "goconst",
   "gocritic",
   "gocyclo",
   "godot",
@@ -37,9 +39,11 @@ enable = [
   "gosimple",
   "govet",
   "ineffassign",
+  "interfacebloat",
   "makezero",
   "maintidx",
   "misspell",
+  "nestif",
   "nilerr",
   "nilnil",
   "noctx",
@@ -55,6 +59,8 @@ enable = [
   "tenv",
   "testpackage",
   "testableexamples",
+  "thelper",
+  "tparallel",
   "typecheck",
   "unconvert",
   "usestdlibvars",
@@ -144,9 +150,6 @@ enable = [
 
     [[linters-settings.revive.rules]]
       name = "context-keys-type"
-
-    [[linters-settings.revive.rules]]
-      name = "deep-exit"
 
     [[linters-settings.revive.rules]]
       name = "defer"
@@ -306,12 +309,9 @@ max-same-issues = 0
     linters = [
       "containedctx",
       "contextcheck",
-      "dupl",
       "errcheck",
-      "funlen",
       "gochecknoglobals",
       "goerr113",
-      "makezero",
       "nilerr",
       "noctx",
       "varnamelen",
@@ -321,7 +321,3 @@ max-same-issues = 0
   [[issues.exclude-rules]]
     path = "_test.go"
     text = "fieldalignment"
-
-  [[issues.exclude-rules]]
-    path = "_test.go"
-    text = "nested-structs"
