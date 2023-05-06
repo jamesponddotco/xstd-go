@@ -1,6 +1,7 @@
 package xrand_test
 
 import (
+	"io"
 	"reflect"
 	"sort"
 	"testing"
@@ -12,8 +13,9 @@ func TestShuffle(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
-		name string
-		str  []string
+		name   string
+		str    []string
+		reader io.Reader
 	}{
 		{
 			name: "Empty slice",
@@ -35,6 +37,11 @@ func TestShuffle(t *testing.T) {
 			name: "Ten elements",
 			str:  []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"},
 		},
+		{
+			name:   "Error reader",
+			str:    []string{"a", "b", "c"},
+			reader: &errorReader{},
+		},
 	}
 
 	for _, tt := range tests {
@@ -46,7 +53,17 @@ func TestShuffle(t *testing.T) {
 			original := make([]string, len(tt.str)) //nolint:makezero // @TODO: make zeroed
 			copy(original, tt.str)
 
-			xrand.Shuffle(tt.str, nil)
+			defer func() {
+				if r := recover(); r != nil {
+					if tt.reader != nil {
+						t.Log("Recovered from panic caused by error reader")
+					} else {
+						t.Errorf("Unexpected panic: %v", r)
+					}
+				}
+			}()
+
+			xrand.Shuffle(tt.str, tt.reader)
 
 			// Test that the length of the original and shuffled slices are equal
 			if len(original) != len(tt.str) {
