@@ -21,6 +21,18 @@ func DefaultConfig() *tls.Config {
 	}
 }
 
+// DefaultServerConfig returns a [*tls.Config] with optimized security and
+// performance settings for common server use cases.
+//
+// [*tls.Config]: https://godocs.io/crypto/tls#Config
+func DefaultServerConfig() *tls.Config {
+	return &tls.Config{
+		MinVersion:             tls.VersionTLS13,
+		SessionTicketsDisabled: false,
+		ClientSessionCache:     tls.NewLRUClientSessionCache(128),
+	}
+}
+
 // DefaultCipherSuites returns a sensible default list of cipher suites based
 // on [Mozilla's recommendations].
 //

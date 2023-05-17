@@ -33,6 +33,24 @@ func TestDefaultConfig(t *testing.T) {
 	}
 }
 
+func TestDefaultServerConfig(t *testing.T) {
+	t.Parallel()
+
+	config := xtls.DefaultServerConfig()
+
+	if config.SessionTicketsDisabled {
+		t.Error("SessionTicketsDisabled is true")
+	}
+
+	if config.MinVersion != tls.VersionTLS13 {
+		t.Error("MinVersion is not TLS 1.2")
+	}
+
+	if config.ClientSessionCache == nil {
+		t.Error("ClientSessionCache is nil")
+	}
+}
+
 func TestDefaultCipherSuites(t *testing.T) {
 	t.Parallel()
 
