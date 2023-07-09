@@ -12,32 +12,32 @@ func TestRedactSecret(t *testing.T) {
 	tests := []struct {
 		name     string
 		dump     []byte
-		key      string
+		header   string
 		expected string
 	}{
 		{
-			name:     "No secret in dump",
-			dump:     []byte("GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"),
-			key:      "SecretKey",
-			expected: "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n",
+			name:     "Simple redaction",
+			dump:     []byte("Authorization: Bearer mysecrettoken\nContent-Type: application/json\n"),
+			header:   "Authorization",
+			expected: "Authorization: REDACTED\nContent-Type: application/json\n",
 		},
 		{
-			name:     "Redact secret in headers",
-			dump:     []byte("GET / HTTP/1.1\r\nHost: example.com\r\nAuthorization: SecretKey\r\n\r\n"),
-			key:      "SecretKey",
-			expected: "GET / HTTP/1.1\r\nHost: example.com\r\nAuthorization: REDACTED\r\n\r\n",
+			name:     "Case insensitive header",
+			dump:     []byte("authorization: Bearer mysecrettoken\nContent-Type: application/json\n"),
+			header:   "Authorization",
+			expected: "authorization: REDACTED\nContent-Type: application/json\n",
 		},
 		{
-			name:     "Redact secret in body",
-			dump:     []byte("POST /login HTTP/1.1\r\nHost: example.com\r\n\r\n{\"username\":\"user\",\"password\":\"SecretKey\"}"),
-			key:      "SecretKey",
-			expected: "POST /login HTTP/1.1\r\nHost: example.com\r\n\r\n{\"username\":\"user\",\"password\":\"REDACTED\"}",
+			name:     "No matching header",
+			dump:     []byte("Content-Type: application/json\n"),
+			header:   "Authorization",
+			expected: "Content-Type: application/json\n",
 		},
 		{
-			name:     "Redact multiple secrets",
-			dump:     []byte("GET /SecretKey HTTP/1.1\r\nHost: SecretKey.example.com\r\n\r\n"),
-			key:      "SecretKey",
-			expected: "GET /REDACTED HTTP/1.1\r\nHost: REDACTED.example.com\r\n\r\n",
+			name:     "Empty input",
+			dump:     []byte(""),
+			header:   "Authorization",
+			expected: "",
 		},
 	}
 
@@ -47,9 +47,9 @@ func TestRedactSecret(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			redacted := xhttputil.RedactSecret(tt.dump, tt.key)
-			if redacted != tt.expected {
-				t.Errorf("Expected redacted dump to be '%s', got '%s'", tt.expected, redacted)
+			result := xhttputil.RedactSecret(tt.dump, tt.header)
+			if result != tt.expected {
+				t.Errorf("RedactSecret(%q, %q) = %q; want %q", tt.dump, tt.header, result, tt.expected)
 			}
 		})
 	}
