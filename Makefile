@@ -24,7 +24,7 @@ test: # Runs unit tests.
 	$(GO) test -cover -race -vet all -mod readonly ./...
 
 test/coverage: # Generates a coverage profile and open it in a browser.
-	$(GO) test -coverprofile cover.out
+	$(GO) test -coverprofile cover.out ./...
 	$(GO) tool cover -html=cover.out
 
 clean: # Cleans cache files from tests and deletes any build output.
