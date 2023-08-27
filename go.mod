@@ -1,6 +1,6 @@
 module git.sr.ht/~jamesponddotco/xstd-go
 
-go 1.20
+go 1.21
 
 require golang.org/x/crypto v0.8.0
 
