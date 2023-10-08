@@ -99,12 +99,3 @@ func JoinWithSeparator(separator string, str ...string) string {
 
 	return xunsafe.BytesToString(buff)
 }
-
-// max returns the larger of two integers.
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-
-	return b
-}
