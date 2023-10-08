@@ -6,61 +6,6 @@ import (
 	"git.sr.ht/~jamesponddotco/xstd-go/xstrings"
 )
 
-func TestContainsOnly(t *testing.T) {
-	t.Parallel()
-
-	tests := []struct {
-		name   string
-		s      string
-		set    string
-		result bool
-	}{
-		{
-			name:   "EmptyString",
-			s:      "",
-			set:    xstrings.Letters,
-			result: false,
-		},
-		{
-			name:   "OnlyLetters",
-			s:      "HelloWorld",
-			set:    xstrings.Letters,
-			result: true,
-		},
-		{
-			name:   "ContainsNumbers",
-			s:      "H3ll0W0rld",
-			set:    xstrings.Letters,
-			result: false,
-		},
-		{
-			name:   "OnlyNumbers",
-			s:      "12345",
-			set:    xstrings.Numbers,
-			result: true,
-		},
-		{
-			name:   "OnlySymbols",
-			s:      "!@#$%",
-			set:    xstrings.Symbols,
-			result: true,
-		},
-	}
-
-	for _, tt := range tests {
-		tt := tt
-
-		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			result := xstrings.ContainsOnly(tt.s, tt.set)
-			if result != tt.result {
-				t.Errorf("Expected %v, got %v", tt.result, result)
-			}
-		})
-	}
-}
-
 func TestRemove(t *testing.T) {
 	t.Parallel()
 

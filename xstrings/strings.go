@@ -16,22 +16,6 @@ const (
 	AllCharacters    string = Letters + Numbers + Symbols + Space
 )
 
-// ContainsOnly returns true if the string contains only the characters in the
-// given set.
-func ContainsOnly(s, set string) bool {
-	if s == "" {
-		return false
-	}
-
-	for _, r := range s {
-		if !strings.ContainsRune(set, r) {
-			return false
-		}
-	}
-
-	return true
-}
-
 // Remove returns a copy of the string with all occurrences of the given
 // characters removed.
 func Remove(str, set string) string {
