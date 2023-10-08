@@ -41,10 +41,16 @@ func Remove(str, set string) string {
 
 	var builder strings.Builder
 
+	// Create a map for O(1) lookups.
+	setMap := make(map[rune]bool, len(set))
+	for _, r := range set {
+		setMap[r] = true
+	}
+
 	builder.Grow(len(str))
 
 	for _, r := range str {
-		if !strings.ContainsRune(set, r) {
+		if !setMap[r] {
 			builder.WriteRune(r)
 		}
 	}
