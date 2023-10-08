@@ -32,7 +32,8 @@ func ContainsOnly(s, set string) bool {
 	return true
 }
 
-// Remove returns a copy of the string with all occurrences of the given characters removed.
+// Remove returns a copy of the string with all occurrences of the given
+// characters removed.
 func Remove(str, set string) string {
 	if str == "" {
 		return ""
