@@ -40,7 +40,7 @@ func Remove(str, set string) string {
 
 	var builder strings.Builder
 
-	builder.Grow(max(len(str)-len(set), 0))
+	builder.Grow(len(str))
 
 	for _, r := range str {
 		if !strings.ContainsRune(set, r) {
