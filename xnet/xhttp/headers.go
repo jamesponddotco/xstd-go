@@ -108,4 +108,6 @@ const (
 	Secure                string = "secure"
 	NoTransform           string = "no-transform"
 	Chunked               string = "chunked"
+	True                  string = "true"
+	False                 string = "false"
 )
