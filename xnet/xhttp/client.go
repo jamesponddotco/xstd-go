@@ -1,6 +1,7 @@
 package xhttp
 
 import (
+	"log/slog"
 	"net/http"
 	"time"
 )
@@ -28,4 +29,24 @@ func NewClient(timeout time.Duration) *http.Client {
 		Jar:     nil,
 		Timeout: timeout,
 	}
+}
+
+// NewRetryingClient returns a new http.Client given the provided timeout and
+// RetryPolicy. Unlike Go's http.DefaultClient:
+// - It is not shared, thus cannot be altered by other modules.
+// - It doesn't follow redirects.
+// - It doesn't accept cookies.
+// - It retries failed requests.
+//
+// A zero timeout means to use a default timeout. A nil policy means to use a
+// default policy. A nil logger means to not log.
+func NewRetryingClient(timeout time.Duration, policy *RetryPolicy, logger *slog.Logger) *http.Client {
+	var (
+		client    = NewClient(timeout)
+		transport = NewRetryRoundTripper(policy, logger)
+	)
+
+	client.Transport = transport
+
+	return client
 }

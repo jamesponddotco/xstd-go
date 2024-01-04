@@ -28,3 +28,24 @@ func TestNewClient_CheckRedirect(t *testing.T) {
 		t.Fatalf("Expected status code %d, got %d", http.StatusFound, resp.StatusCode)
 	}
 }
+
+func TestNewRetryingClient_CheckRedirect(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "http://example.com", http.StatusFound)
+	}))
+	defer ts.Close()
+
+	client := xhttp.NewRetryingClient(0, nil, nil)
+
+	resp, err := client.Get(ts.URL)
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusFound {
+		t.Fatalf("Expected status code %d, got %d", http.StatusFound, resp.StatusCode)
+	}
+}
