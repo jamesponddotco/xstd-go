@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"testing"
 	"time"
 
@@ -89,6 +90,7 @@ func TestRetryRoundTripper_RoundTrip(t *testing.T) {
 			t.Parallel()
 
 			var (
+				mu       sync.Mutex
 				requests = 0
 				srv      = httptest.NewServer(http.HandlerFunc(
 					func(w http.ResponseWriter, _ *http.Request) {
@@ -102,7 +104,9 @@ func TestRetryRoundTripper_RoundTrip(t *testing.T) {
 
 						w.WriteHeader(tt.responses[respIdx])
 
+						mu.Lock()
 						requests++
+						mu.Unlock()
 					}))
 			)
 			defer srv.Close()
@@ -136,7 +140,11 @@ func TestRetryRoundTripper_RoundTrip(t *testing.T) {
 				t.Errorf("unexpected status code: got %v, want %v", resp.StatusCode, tt.wantFinal)
 			}
 
-			if got := requests; got != tt.wantAttempts {
+			mu.Lock()
+			got := requests
+			mu.Unlock()
+
+			if got != tt.wantAttempts {
 				t.Errorf("unexpected number of attempts: got %d, want %d", got, tt.wantAttempts)
 			}
 		})
