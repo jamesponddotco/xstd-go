@@ -14,6 +14,20 @@ const (
 	_jitterFactor  float64 = 0.1
 )
 
+const (
+	// DefaultMaxRetries is the default maximum number of times a request will
+	// be retried.
+	DefaultMaxRetries int = 3
+
+	// DefaultMinRetryDelay is the default minimum duration to wait before
+	// retrying a request.
+	DefaultMinRetryDelay time.Duration = 1 * time.Second
+
+	// DefaultMaxRetryDelay is the default maximum duration to wait before
+	// retrying a request.
+	DefaultMaxRetryDelay time.Duration = 30 * time.Second
+)
+
 // RetryPolicy defines a policy for retrying HTTP requests.
 type RetryPolicy struct {
 	// IsRetryable determines whether a given response and error combination
@@ -39,10 +53,10 @@ type RetryPolicy struct {
 // - MaxRetryDelay: 30 seconds.
 func NewRetryPolicy() *RetryPolicy {
 	return &RetryPolicy{
-		IsRetryable:   defaultIsRetryable,
-		MaxRetries:    3,
-		MinRetryDelay: 1 * time.Second,
-		MaxRetryDelay: 30 * time.Second,
+		IsRetryable:   DefaultIsRetryable,
+		MaxRetries:    DefaultMaxRetries,
+		MinRetryDelay: DefaultMinRetryDelay,
+		MaxRetryDelay: DefaultMaxRetryDelay,
 	}
 }
 
@@ -72,9 +86,12 @@ func (p *RetryPolicy) Wait(ctx context.Context, attempt int) error {
 	}
 }
 
-// defaultIsRetryable defines the default logic to determine if a request should
+// DefaultIsRetryable defines the default logic to determine if a request should
 // be retried.
-func defaultIsRetryable(resp *http.Response, err error) bool {
+//
+// It returns true if an error occurs or the response status code indicates a
+// retry may be successful (e.g., 408, 429, 502, 503, 504).
+func DefaultIsRetryable(resp *http.Response, err error) bool {
 	if err != nil {
 		return true
 	}
