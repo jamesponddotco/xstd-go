@@ -2,7 +2,7 @@
 skip-dirs = [".tmp"]
 skip-dirs-use-default = "false"
 modules-download-mode = "readonly"
-go = "1.20"
+go = "1.21"
 
 [linters]
 disable-all = true
@@ -13,7 +13,6 @@ enable = [
   "bodyclose",
   "containedctx",
   "contextcheck",
-  "durationcheck",
   "durationcheck",
   "errcheck",
   "errchkjson",
@@ -49,10 +48,12 @@ enable = [
   "nolintlint",
   "nosprintfhostport",
   "paralleltest",
+  "perfsprint",
   "prealloc",
   "predeclared",
   "reassign",
   "revive",
+  "sloglint",
   "staticcheck",
   "stylecheck",
   "tenv",
@@ -284,6 +285,10 @@ enable = [
 
     [[linters-settings.revive.rules]]
       name = "waitgroup-by-value"
+
+  [linters-settings.sloglint]
+    kv-only = true
+    args-on-sep-lines = true
 
   [linters-settings.staticcheck]
     checks = ["all"]
