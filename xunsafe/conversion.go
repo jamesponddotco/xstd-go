@@ -1,7 +1,6 @@
 package xunsafe
 
 import (
-	"reflect"
 	"unsafe"
 )
 
@@ -10,7 +9,7 @@ import (
 // The byte slice must not be used, modified, or reallocated after this call
 // since the returned string references the same memory.
 func BytesToString(slice []byte) string {
-	return *(*string)(unsafe.Pointer(&slice))
+	return unsafe.String(unsafe.SliceData(slice), len(slice))
 }
 
 // StringToBytes converts a string to a byte slice without memory allocation.
@@ -21,14 +20,5 @@ func StringToBytes(str string) []byte {
 		return []byte{}
 	}
 
-	var slice []byte
-
-	stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&str))
-	sliceHeader := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
-
-	sliceHeader.Data = stringHeader.Data
-	sliceHeader.Len = stringHeader.Len
-	sliceHeader.Cap = stringHeader.Len
-
-	return slice
+	return unsafe.Slice(unsafe.StringData(str), len(str))
 }
