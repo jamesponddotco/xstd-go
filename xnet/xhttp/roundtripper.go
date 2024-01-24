@@ -1,6 +1,7 @@
 package xhttp
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log/slog"
@@ -46,7 +47,7 @@ func NewRetryRoundTripper(policy *RetryPolicy, logger *slog.Logger) *RetryRoundT
 }
 
 // RoundTrip executes an HTTP transaction with retry logic.
-func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) { //nolint:gocognit,gocyclo // realistically, this is needed for logging
+func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	var bodyReader io.ReadSeeker
 
 	if req.Body != nil {
@@ -54,14 +55,12 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 
 		bodyReader, err = xio.ReaderToReadSeeker(req.Body)
 		if err != nil {
-			if rt.Logger != nil {
-				rt.Logger.LogAttrs(
-					req.Context(),
-					slog.LevelError,
-					"failed to convert request body to ReadSeeker",
-					slog.Any("error", err),
-				)
-			}
+			rt.logEvent(
+				req.Context(),
+				slog.LevelError,
+				"failed to convert request body to ReadSeeker",
+				slog.Any("error", err),
+			)
 
 			return nil, fmt.Errorf("%w", err)
 		}
@@ -72,26 +71,22 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 	originalReq := req.Clone(req.Context())
 
 	for attempt := 0; attempt <= rt.Policy.MaxRetries; attempt++ {
-		if rt.Logger != nil {
-			rt.Logger.LogAttrs(
-				req.Context(),
-				slog.LevelInfo,
-				"attempting request",
-				slog.Int("attempt", attempt),
-			)
-		}
+		rt.logEvent(
+			req.Context(),
+			slog.LevelInfo,
+			"attempting request",
+			slog.Int("attempt", attempt),
+		)
 
 		if bodyReader != nil {
 			_, err := bodyReader.Seek(0, io.SeekStart)
 			if err != nil {
-				if rt.Logger != nil {
-					rt.Logger.LogAttrs(
-						req.Context(),
-						slog.LevelError,
-						"failed to seek request body",
-						slog.Any("error", err),
-					)
-				}
+				rt.logEvent(
+					req.Context(),
+					slog.LevelError,
+					"failed to seek request body",
+					slog.Any("error", err),
+				)
 
 				return nil, fmt.Errorf("%w", err)
 			}
@@ -103,44 +98,38 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 
 		// Successful, non-retryable case.
 		if err == nil && !rt.Policy.IsRetryable(resp, nil) {
-			if rt.Logger != nil {
-				rt.Logger.LogAttrs(
-					req.Context(),
-					slog.LevelInfo,
-					"request succeeded",
-					slog.Int("attempt", attempt),
-				)
-			}
+			rt.logEvent(
+				req.Context(),
+				slog.LevelInfo,
+				"request succeeded",
+				slog.Int("attempt", attempt),
+			)
 
 			return resp, nil
 		}
 
 		// Retryable case.
-		if err != nil || rt.Policy.IsRetryable(resp, err) { //nolint:nestif // no idea how to do it better
+		if err != nil || rt.Policy.IsRetryable(resp, err) {
 			if resp != nil {
 				if drainErr := DrainResponseBody(resp); drainErr != nil {
-					if rt.Logger != nil {
-						rt.Logger.LogAttrs(
-							req.Context(),
-							slog.LevelError,
-							"failed to drain response body",
-							slog.Any("error", drainErr),
-						)
-					}
+					rt.logEvent(
+						req.Context(),
+						slog.LevelError,
+						"failed to drain response body",
+						slog.Any("error", drainErr),
+					)
 
 					return nil, fmt.Errorf("%w", drainErr)
 				}
 			}
 
 			if waitErr := rt.Policy.Wait(req.Context(), attempt); waitErr != nil {
-				if rt.Logger != nil {
-					rt.Logger.LogAttrs(
-						req.Context(),
-						slog.LevelError,
-						"failed during retry wait",
-						slog.Any("error", waitErr),
-					)
-				}
+				rt.logEvent(
+					req.Context(),
+					slog.LevelError,
+					"failed during retry wait",
+					slog.Any("error", waitErr),
+				)
 
 				return nil, fmt.Errorf("%w", waitErr)
 			}
@@ -156,4 +145,12 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 	}
 
 	return nil, fmt.Errorf("%w", ErrExceededMaxRetries)
+}
+
+// logEvent is a simple wrapper around slog.Logger.LogAttrs that logs the given
+// message and attributes at the specified level.
+func (rt *RetryRoundTripper) logEvent(ctx context.Context, level slog.Level, msg string, attrs ...slog.Attr) {
+	if rt.Logger != nil {
+		rt.Logger.LogAttrs(ctx, level, msg, attrs...)
+	}
 }
