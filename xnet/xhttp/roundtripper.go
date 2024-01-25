@@ -64,11 +64,15 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 
 			return nil, fmt.Errorf("%w", err)
 		}
-
-		req.Body.Close()
 	}
 
-	originalReq := req.Clone(req.Context())
+	originalBody := req.Body
+
+	defer func() {
+		if originalBody != nil {
+			originalBody.Close()
+		}
+	}()
 
 	for attempt := 0; attempt <= rt.Policy.MaxRetries; attempt++ {
 		rt.logEvent(
@@ -108,6 +112,10 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 			return resp, nil
 		}
 
+		if resp != nil {
+			resp.Body.Close()
+		}
+
 		// Retryable case.
 		if err != nil || rt.Policy.IsRetryable(resp, err) {
 			if resp != nil {
@@ -134,8 +142,7 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 				return nil, fmt.Errorf("%w", waitErr)
 			}
 
-			// Prepare for the next attempt.
-			req = originalReq.Clone(req.Context())
+			req.Body = originalBody
 
 			continue
 		}
