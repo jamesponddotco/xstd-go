@@ -52,9 +52,10 @@ func TestUserAgent(t *testing.T) {
 				w = httptest.NewRecorder()
 				r = httptest.NewRequest(http.MethodGet, "/", http.NoBody)
 			)
+
 			r.Header.Set("User-Agent", tt.userAgent)
 
-			middleware := xmiddleware.UserAgent(logger, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			middleware := xmiddleware.UserAgent(logger, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
 				w.Write([]byte("OK"))
 			}))
@@ -98,7 +99,7 @@ func TestPrivacyPolicy(t *testing.T) {
 				r = httptest.NewRequest(http.MethodGet, "/", http.NoBody)
 			)
 
-			middleware := xmiddleware.PrivacyPolicy(tt.uri, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}))
+			middleware := xmiddleware.PrivacyPolicy(tt.uri, http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {}))
 			middleware.ServeHTTP(w, r)
 
 			if w.Header().Get("Privacy-Policy") != tt.expectedURI {
@@ -134,7 +135,7 @@ func TestTermsOfService(t *testing.T) {
 				r = httptest.NewRequest(http.MethodGet, "/", http.NoBody)
 			)
 
-			middleware := xmiddleware.TermsOfService(tt.uri, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}))
+			middleware := xmiddleware.TermsOfService(tt.uri, http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {}))
 			middleware.ServeHTTP(w, r)
 
 			if w.Header().Get("Terms-Of-Service") != tt.expectedURI {

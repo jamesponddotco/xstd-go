@@ -22,7 +22,7 @@ func TestPanicRecovery(t *testing.T) {
 	}{
 		{
 			name: "with panic",
-			handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			handler: http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {
 				panic("forced panic")
 			}),
 			expectedStatus: http.StatusInternalServerError,
@@ -33,7 +33,7 @@ func TestPanicRecovery(t *testing.T) {
 		},
 		{
 			name: "without panic",
-			handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			handler: http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
 				w.Write([]byte("OK"))
 			}),
@@ -77,6 +77,7 @@ func TestPanicRecovery(t *testing.T) {
 			}
 
 			var logs []map[string]any
+
 			for _, line := range bytes.Split(buf.Bytes(), []byte{'\n'}) {
 				if len(line) == 0 {
 					continue

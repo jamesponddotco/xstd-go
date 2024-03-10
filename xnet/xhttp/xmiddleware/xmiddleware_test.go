@@ -57,7 +57,7 @@ func TestChain(t *testing.T) {
 			)
 
 			var (
-				handlerToChain = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				handlerToChain = http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 					w.WriteHeader(http.StatusOK)
 				})
 				chain = xmiddleware.Chain(handlerToChain, tt.middlewares...)

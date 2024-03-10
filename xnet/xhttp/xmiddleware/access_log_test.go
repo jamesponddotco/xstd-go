@@ -54,7 +54,7 @@ func TestAccessLog(t *testing.T) {
 				r = httptest.NewRequest(tt.method, tt.path, http.NoBody)
 			)
 
-			middleware := xmiddleware.AccessLog(logger, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			middleware := xmiddleware.AccessLog(logger, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 			}))
 			middleware.ServeHTTP(w, r)
@@ -65,6 +65,7 @@ func TestAccessLog(t *testing.T) {
 
 			// Validate logger behavior
 			var logs []map[string]any
+
 			for _, line := range bytes.Split(buf.Bytes(), []byte{'\n'}) {
 				if len(line) == 0 {
 					continue

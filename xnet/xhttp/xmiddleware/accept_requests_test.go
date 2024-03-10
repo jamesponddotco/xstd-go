@@ -52,7 +52,7 @@ func TestAcceptRequests(t *testing.T) {
 				r = httptest.NewRequest(tt.requestMethod, "/", http.NoBody)
 			)
 
-			middleware := xmiddleware.AcceptRequests(tt.methods, logger, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			middleware := xmiddleware.AcceptRequests(tt.methods, logger, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
 			}))
 			middleware.ServeHTTP(w, r)

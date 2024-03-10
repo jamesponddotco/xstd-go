@@ -8,7 +8,7 @@ import (
 	"git.sr.ht/~jamesponddotco/xstd-go/xos"
 )
 
-func TestGetEnv(t *testing.T) { //nolint:paralleltest // Test is not safe to run in parallel.
+func TestGetEnv(t *testing.T) {
 	tests := []struct {
 		name     string
 		key      string
@@ -39,7 +39,7 @@ func TestGetEnv(t *testing.T) { //nolint:paralleltest // Test is not safe to run
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // See above.
+	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -54,7 +54,7 @@ func TestGetEnv(t *testing.T) { //nolint:paralleltest // Test is not safe to run
 	}
 }
 
-func TestGetIntEnv(t *testing.T) { //nolint:paralleltest // See above.
+func TestGetIntEnv(t *testing.T) {
 	tests := []struct {
 		name     string
 		key      string
@@ -85,7 +85,7 @@ func TestGetIntEnv(t *testing.T) { //nolint:paralleltest // See above.
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // See above.
+	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -100,7 +100,7 @@ func TestGetIntEnv(t *testing.T) { //nolint:paralleltest // See above.
 	}
 }
 
-func TestGetBoolEnv(t *testing.T) { //nolint:paralleltest // See above.
+func TestGetBoolEnv(t *testing.T) {
 	tests := []struct {
 		name     string
 		key      string
@@ -131,7 +131,7 @@ func TestGetBoolEnv(t *testing.T) { //nolint:paralleltest // See above.
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // See above.
+	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -146,7 +146,7 @@ func TestGetBoolEnv(t *testing.T) { //nolint:paralleltest // See above.
 	}
 }
 
-func TestGetDurationEnv(t *testing.T) { //nolint:paralleltest // See above.
+func TestGetDurationEnv(t *testing.T) {
 	tests := []struct {
 		name     string
 		key      string
@@ -177,7 +177,7 @@ func TestGetDurationEnv(t *testing.T) { //nolint:paralleltest // See above.
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // See above.
+	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)

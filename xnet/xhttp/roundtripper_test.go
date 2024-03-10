@@ -109,11 +109,12 @@ func TestRetryRoundTripper_RoundTrip(t *testing.T) {
 						mu.Unlock()
 					}))
 			)
+
 			defer srv.Close()
 
 			policy := &xhttp.RetryPolicy{
 				MaxRetries: tt.retries,
-				IsRetryable: func(resp *http.Response, err error) bool {
+				IsRetryable: func(resp *http.Response, _ error) bool {
 					return resp.StatusCode >= 500
 				},
 				MinRetryDelay: 1 * time.Millisecond,

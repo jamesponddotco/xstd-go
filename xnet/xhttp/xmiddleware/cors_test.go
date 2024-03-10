@@ -99,9 +99,10 @@ func TestCORS(t *testing.T) {
 			)
 
 			tt.request.Header.Set(xhttp.Origin, tt.allowOrigin)
+
 			recorder := httptest.NewRecorder()
 
-			handler := xmiddleware.CORS(tt.config, logger, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			handler := xmiddleware.CORS(tt.config, logger, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
 			}))
 

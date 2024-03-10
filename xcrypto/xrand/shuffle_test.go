@@ -72,6 +72,7 @@ func TestShuffle(t *testing.T) {
 
 			// Test that the shuffled slice still contains the same elements as the original
 			sort.Strings(original)
+
 			sortedShuffled := make([]string, len(tt.str)) //nolint:makezero // @TODO: make zeroed
 			copy(sortedShuffled, tt.str)
 			sort.Strings(sortedShuffled)

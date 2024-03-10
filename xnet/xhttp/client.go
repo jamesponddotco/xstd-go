@@ -23,7 +23,7 @@ func NewClient(timeout time.Duration) *http.Client {
 
 	return &http.Client{
 		Transport: NewTransport(),
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		CheckRedirect: func(_ *http.Request, _ []*http.Request) error {
 			return http.ErrUseLastResponse
 		},
 		Jar:     nil,
