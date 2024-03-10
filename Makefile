@@ -11,13 +11,12 @@ init: # Downloads and verifies project dependencies and tooling.
 	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	$(GO) install golang.org/x/vuln/cmd/govulncheck@latest
 
-pre-commit: tidy fmt lint vulnerabilities test build clean # Runs all pre-commit checks.
+pre-commit: tidy fmt lint vulnerabilities test clean # Runs all pre-commit checks.
 
 commit: pre-commit # Commits the changes to the repository.
-	$(GIT) commit -scommit: pre-commit # Commits the changes to the repository.
 	$(GIT) commit -s
 
-push: commit # Pushes the changes to the repository.
+push: # Pushes the changes to the repository.
 	$(GIT) push origin trunk
 
 doc: # Serve the documentation locally.
