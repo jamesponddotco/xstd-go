@@ -89,7 +89,7 @@ func TestLogEvent(t *testing.T) {
 			}
 
 			got := strings.TrimSpace(sb.String())
-			got = regexp.MustCompile(`^time=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2} `).ReplaceAllString(got, "")
+			got = regexp.MustCompile(`^time=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}(?:Z|[+-]\d{2}:\d{2}) `).ReplaceAllString(got, "")
 
 			if got != tt.wantMsg {
 				t.Errorf("LogEvent() logged message %q, want %q", got, tt.wantMsg)
