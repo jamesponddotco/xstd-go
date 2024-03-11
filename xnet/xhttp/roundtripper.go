@@ -1,7 +1,6 @@
 package xhttp
 
 import (
-	"context"
 	"fmt"
 	"io"
 	"log/slog"
@@ -9,6 +8,7 @@ import (
 
 	"git.sr.ht/~jamesponddotco/xstd-go/xerrors"
 	"git.sr.ht/~jamesponddotco/xstd-go/xio"
+	"git.sr.ht/~jamesponddotco/xstd-go/xlog/xslog"
 )
 
 // ErrExceededMaxRetries is returned when the maximum number of retries has
@@ -55,8 +55,9 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 
 		bodyReader, err = xio.ReaderToReadSeeker(req.Body)
 		if err != nil {
-			rt.logEvent(
+			xslog.LogEvent(
 				req.Context(),
+				rt.Logger,
 				slog.LevelError,
 				"failed to convert request body to ReadSeeker",
 				slog.Any("error", err),
@@ -75,9 +76,10 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 	}()
 
 	for attempt := 0; attempt <= rt.Policy.MaxRetries; attempt++ {
-		rt.logEvent(
+		xslog.LogEvent(
 			req.Context(),
-			slog.LevelInfo,
+			rt.Logger,
+			slog.LevelDebug,
 			"attempting request",
 			slog.Int("attempt", attempt),
 		)
@@ -85,8 +87,9 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 		if bodyReader != nil {
 			_, err := bodyReader.Seek(0, io.SeekStart)
 			if err != nil {
-				rt.logEvent(
+				xslog.LogEvent(
 					req.Context(),
+					rt.Logger,
 					slog.LevelError,
 					"failed to seek request body",
 					slog.Any("error", err),
@@ -102,9 +105,10 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 
 		// Successful, non-retryable case.
 		if err == nil && !rt.Policy.IsRetryable(resp, nil) {
-			rt.logEvent(
+			xslog.LogEvent(
 				req.Context(),
-				slog.LevelInfo,
+				rt.Logger,
+				slog.LevelDebug,
 				"request succeeded",
 				slog.Int("attempt", attempt),
 			)
@@ -120,8 +124,9 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 		if err != nil || rt.Policy.IsRetryable(resp, err) {
 			if resp != nil {
 				if drainErr := DrainResponseBody(resp); drainErr != nil {
-					rt.logEvent(
+					xslog.LogEvent(
 						req.Context(),
+						rt.Logger,
 						slog.LevelError,
 						"failed to drain response body",
 						slog.Any("error", drainErr),
@@ -132,8 +137,9 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 			}
 
 			if waitErr := rt.Policy.Wait(req.Context(), attempt); waitErr != nil {
-				rt.logEvent(
+				xslog.LogEvent(
 					req.Context(),
+					rt.Logger,
 					slog.LevelError,
 					"failed during retry wait",
 					slog.Any("error", waitErr),
@@ -152,12 +158,4 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 	}
 
 	return nil, fmt.Errorf("%w", ErrExceededMaxRetries)
-}
-
-// logEvent is a simple wrapper around slog.Logger.LogAttrs that logs the given
-// message and attributes at the specified level.
-func (rt *RetryRoundTripper) logEvent(ctx context.Context, level slog.Level, msg string, attrs ...slog.Attr) {
-	if rt.Logger != nil {
-		rt.Logger.LogAttrs(ctx, level, msg, attrs...)
-	}
 }
