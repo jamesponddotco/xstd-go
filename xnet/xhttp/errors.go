@@ -29,7 +29,7 @@ func (e ResponseError) Error() string {
 // Write serializes the ResponseError as a JSON object and writes it to the
 // given HTTP response writer.
 func (e ResponseError) Write(ctx context.Context, logger *slog.Logger, w http.ResponseWriter) {
-	js, _ := json.MarshalIndent(e, "", "  ")
+	js, _ := json.MarshalIndent(e, "", "  ") //nolint:errcheck // this should be safe
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(e.Code)

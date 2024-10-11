@@ -9,7 +9,7 @@ import (
 func TestInt63(t *testing.T) {
 	t.Parallel()
 
-	for i := 0; i < 32; i++ {
+	for range 32 {
 		x := xrand.Int63()
 
 		if x < 0 || x > 9223372036854775807 {

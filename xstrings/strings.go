@@ -52,12 +52,12 @@ func Join(str ...string) string {
 	}
 
 	n := 0
-	for i := 0; i < length; i++ {
+	for i := range length {
 		n += len(str[i])
 	}
 
 	buff := make([]byte, 0, n)
-	for i := 0; i < length; i++ {
+	for i := range length {
 		buff = append(buff, str[i]...)
 	}
 
@@ -73,14 +73,14 @@ func JoinWithSeparator(separator string, str ...string) string {
 	}
 
 	n := 0
-	for i := 0; i < length; i++ {
+	for i := range length {
 		n += len(str[i])
 	}
 
 	n += len(separator) * (length - 1)
 
 	buff := make([]byte, 0, n)
-	for i := 0; i < length; i++ {
+	for i := range length {
 		buff = append(buff, str[i]...)
 
 		if i < length-1 {

@@ -29,7 +29,7 @@ func TestSource64_Int63(t *testing.T) {
 
 	prevInt63 := src.Int63()
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		currentInt63 := src.Int63()
 
 		if currentInt63 == prevInt63 {
@@ -50,7 +50,7 @@ func TestUint64(t *testing.T) {
 
 	prevUint64 := src.Uint64()
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		currentUint64 := src.Uint64()
 
 		if currentUint64 == prevUint64 {

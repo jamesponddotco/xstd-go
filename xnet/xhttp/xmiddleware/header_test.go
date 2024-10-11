@@ -55,7 +55,7 @@ func TestUserAgent(t *testing.T) {
 
 			middleware := xmiddleware.UserAgent(logger, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte("OK"))
+				w.Write([]byte("OK")) //nolint:errcheck // safe to ignore, we're testing
 			}))
 			middleware.ServeHTTP(w, r)
 

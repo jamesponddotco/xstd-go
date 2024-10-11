@@ -1,6 +1,7 @@
 package xhttp_test
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -18,7 +19,12 @@ func TestNewClient_CheckRedirect(t *testing.T) {
 
 	client := xhttp.NewClient(0)
 
-	resp, err := client.Get(ts.URL)
+	request, err := http.NewRequestWithContext(context.Background(), http.MethodGet, ts.URL, http.NoBody)
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	resp, err := client.Do(request)
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
@@ -39,7 +45,12 @@ func TestNewRetryingClient_CheckRedirect(t *testing.T) {
 
 	client := xhttp.NewRetryingClient(0, nil, nil)
 
-	resp, err := client.Get(ts.URL)
+	request, err := http.NewRequestWithContext(context.Background(), http.MethodGet, ts.URL, http.NoBody)
+	if err != nil {
+		t.Fatalf("Expected no error, got %v", err)
+	}
+
+	resp, err := client.Do(request)
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}

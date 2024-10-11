@@ -35,7 +35,7 @@ func TestPanicRecovery(t *testing.T) {
 			name: "without panic",
 			handler: http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte("OK"))
+				w.Write([]byte("OK")) //nolint:errcheck // safe to ignore, we're testing
 			}),
 			expectedStatus: http.StatusOK,
 			expectedBody:   "OK",

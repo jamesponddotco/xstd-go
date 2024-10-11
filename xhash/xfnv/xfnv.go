@@ -29,7 +29,7 @@ func String(str string) string {
 		keyLen = len(str)
 	)
 
-	for i := 0; i < keyLen; i++ {
+	for i := range keyLen {
 		hash ^= uint64(str[i])
 		hash *= _FNVaPrime64
 	}
