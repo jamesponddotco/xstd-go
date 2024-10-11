@@ -192,7 +192,6 @@ linters-settings:
       - name: var-naming
       - name: waitgroup-by-value
   sloglint:
-    kv-only: true
     no-global: "default"
     args-on-sep-lines: true
   staticcheck:
