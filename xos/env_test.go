@@ -39,7 +39,7 @@ func TestGetEnv(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -85,7 +85,7 @@ func TestGetIntEnv(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -131,7 +131,7 @@ func TestGetBoolEnv(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
@@ -177,7 +177,7 @@ func TestGetDurationEnv(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests { //nolint:paralleltest // Test is not safe to run in parallel.
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the environment for the test case
 			t.Setenv(tt.key, tt.envVal)
