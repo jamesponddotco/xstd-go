@@ -42,8 +42,6 @@ func TestRemove(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
@@ -65,7 +63,7 @@ func TestJoin(t *testing.T) {
 	}{
 		{
 			name:   "EmptySlice",
-			str:    []string{},
+			str:    make([]string, 0),
 			result: "",
 		},
 		{
@@ -81,8 +79,6 @@ func TestJoin(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
@@ -106,7 +102,7 @@ func TestJoinWithSeparator(t *testing.T) {
 		{
 			name:   "EmptySlice",
 			sep:    "",
-			str:    []string{},
+			str:    make([]string, 0),
 			result: "",
 		},
 		{
@@ -124,8 +120,6 @@ func TestJoinWithSeparator(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

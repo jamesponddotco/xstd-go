@@ -19,7 +19,7 @@ func TestChain(t *testing.T) {
 	}{
 		{
 			name:             "No middlewares",
-			middlewares:      []func(http.Handler) http.Handler{},
+			middlewares:      make([]func(http.Handler) http.Handler, 0),
 			requestMethod:    http.MethodGet,
 			expectStatusCode: http.StatusOK,
 		},
@@ -46,8 +46,6 @@ func TestChain(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

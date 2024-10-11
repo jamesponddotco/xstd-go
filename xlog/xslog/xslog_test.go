@@ -61,15 +61,13 @@ func TestLogEvent(t *testing.T) {
 			logger:    slog.New(slog.NewTextHandler(io.Discard, nil)),
 			level:     slog.LevelWarn,
 			msg:       "warning message",
-			attrs:     []slog.Attr{},
+			attrs:     make([]slog.Attr, 0),
 			wantLevel: slog.LevelWarn,
 			wantMsg:   `level=WARN msg="warning message"`,
 		},
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

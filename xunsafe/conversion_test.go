@@ -17,7 +17,7 @@ func TestBytesToString(t *testing.T) {
 	}{
 		{
 			name:  "empty byte slice",
-			bytes: []byte{},
+			bytes: make([]byte, 0),
 			want:  "",
 		},
 		{
@@ -28,8 +28,6 @@ func TestBytesToString(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
@@ -53,7 +51,7 @@ func TestStringToBytes(t *testing.T) {
 		{
 			name: "empty string",
 			str:  "",
-			want: []byte{},
+			want: make([]byte, 0),
 		},
 		{
 			name: "non-empty string",
@@ -63,8 +61,6 @@ func TestStringToBytes(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

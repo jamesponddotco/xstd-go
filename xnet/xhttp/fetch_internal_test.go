@@ -18,7 +18,7 @@ func TestSafeFetcher_IsDomainTrusted(t *testing.T) {
 	}{
 		{
 			name:               "Empty trusted domains",
-			giveTrustedDomains: []string{},
+			giveTrustedDomains: make([]string, 0),
 			giveURL:            "https://example.com",
 			want:               false,
 		},
@@ -67,8 +67,6 @@ func TestSafeFetcher_IsDomainTrusted(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

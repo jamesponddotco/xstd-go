@@ -17,7 +17,7 @@ func BytesToString(slice []byte) string {
 // The string must not be used, modified, or reallocated after this call since the returned byte slice references the same memory.
 func StringToBytes(str string) []byte {
 	if str == "" {
-		return []byte{}
+		return make([]byte, 0)
 	}
 
 	return unsafe.Slice(unsafe.StringData(str), len(str))

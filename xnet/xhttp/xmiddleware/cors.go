@@ -56,7 +56,7 @@ func DefaultCORSConfig() *CORSConfig {
 			xhttp.ContentLength,
 			xhttp.AcceptEncoding,
 		},
-		ExposedHeaders:   []string{},
+		ExposedHeaders:   make([]string, 0),
 		MaxAge:           DefaultCORSMaxAge,
 		AllowCredentials: false,
 	}

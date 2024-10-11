@@ -19,7 +19,7 @@ func TestShuffle(t *testing.T) {
 	}{
 		{
 			name: "Empty slice",
-			str:  []string{},
+			str:  make([]string, 0),
 		},
 		{
 			name: "Single element",
@@ -45,8 +45,6 @@ func TestShuffle(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
