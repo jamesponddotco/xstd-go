@@ -132,7 +132,7 @@ func CORS(config *CORSConfig, logger *slog.Logger, next http.Handler) http.Handl
 		}
 
 		if config.MaxAge > 0 {
-			w.Header().Set(xhttp.AccessControlMaxAge, strconv.Itoa(int(config.MaxAge)))
+			w.Header().Set(xhttp.AccessControlMaxAge, strconv.FormatUint(uint64(config.MaxAge), 10))
 		}
 
 		if r.Method == http.MethodOptions {
