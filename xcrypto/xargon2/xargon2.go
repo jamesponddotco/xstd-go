@@ -8,6 +8,7 @@ import (
 	"crypto/subtle"
 	"encoding/base64"
 	"fmt"
+	"math"
 	"strings"
 
 	"git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand"
@@ -22,6 +23,9 @@ const (
 
 	// ErrInvalidHash is returned when the provided hash is invalid.
 	ErrInvalidHash xerrors.Error = "invalid hash format"
+
+	// ErrInvalidHashLength is returned when the provided hash length is invalid.
+	ErrInvalidHashLength xerrors.Error = "invalid hash length"
 
 	// ErrParseHashParameters is returned when CompareHashAndPassword fails to
 	// parse the hash parameters.
@@ -70,7 +74,10 @@ func CompareHashAndPassword(hash, password string, pepper []byte) error {
 		return ErrInvalidHash
 	}
 
-	var memory, time, threads uint32
+	var (
+		memory, time uint32
+		threads      uint8
+	)
 
 	_, err := fmt.Sscanf(parts[3], "m=%d,t=%d,p=%d", &memory, &time, &threads)
 	if err != nil {
@@ -92,6 +99,10 @@ func CompareHashAndPassword(hash, password string, pepper []byte) error {
 		return fmt.Errorf("%w: hash: %w", ErrDecode, err)
 	}
 
+	if len(hashBytes) > math.MaxUint32 {
+		return fmt.Errorf("%w: %d", ErrInvalidHashLength, len(hashBytes))
+	}
+
 	var (
 		passwordBytes    = xunsafe.StringToBytes(password)
 		combinedPassword = passwordBytes
@@ -101,7 +112,7 @@ func CompareHashAndPassword(hash, password string, pepper []byte) error {
 		combinedPassword = append(combinedPassword, pepper...)
 	}
 
-	newHash := argon2.IDKey(combinedPassword, salt, time, memory, uint8(threads), uint32(len(hashBytes)))
+	newHash := argon2.IDKey(combinedPassword, salt, time, memory, threads, uint32(len(hashBytes))) //nolint:gosec // we check the length above
 
 	if subtle.ConstantTimeCompare(hashBytes, newHash) != 1 {
 		return ErrInvalidPassword
