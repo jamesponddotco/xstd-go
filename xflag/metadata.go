@@ -67,7 +67,7 @@ func (m *Metadata) Usage() string {
 	fmt.Fprintf(&builder, "VERSION:\n   %s\n\n", m.Ver)
 
 	if len(m.Options) > 0 {
-		fmt.Fprintf(&builder, "GLOBAL OPTIONS:\n\n")
+		fmt.Fprintf(&builder, "GLOBAL OPTIONS:\n")
 
 		fmt.Fprint(&builder, m.formatOptions())
 	}

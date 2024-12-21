@@ -1,4 +1,10 @@
 mode: set
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:19.29,21.2 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:24.57,25.14 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:25.14,27.3 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:29.2,33.16 4 1
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:33.16,36.4 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:39.2,39.23 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:60.33,67.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:71.73,73.21 2 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:73.21,75.3 1 1
@@ -20,18 +26,12 @@ git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:130.17,132.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:134.2,139.19 2 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:139.19,141.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xargon2/xargon2.go:143.2,156.3 2 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:19.29,21.2 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:24.57,25.14 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:25.14,27.3 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:29.2,33.16 4 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:33.16,36.4 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xrand/bytes.go:39.2,39.23 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xerrors/error.go:9.31,11.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xtls/config.go:11.34,22.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xtls/config.go:28.40,30.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xtls/config.go:36.39,47.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xtls/config.go:53.45,65.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xcrypto/xtls/config.go:71.37,80.2 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xerrors/error.go:9.31,11.2 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xflag/metadata.go:57.35,61.20 3 1
 git.sr.ht/~jamesponddotco/xstd-go/xflag/metadata.go:61.20,63.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xflag/metadata.go:65.2,69.24 4 1
@@ -69,6 +69,11 @@ git.sr.ht/~jamesponddotco/xstd-go/xio/xio.go:38.16,40.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xio/xio.go:42.2,42.42 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xlog/xslog/xslog.go:12.107,13.19 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xlog/xslog/xslog.go:13.19,15.3 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:18.54,25.29 2 1
+git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:25.29,28.52 2 1
+git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:28.52,31.19 2 1
+git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:31.19,33.5 1 1
+git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:37.2,37.51 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xurl/xurl.go:13.47,15.16 2 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xurl/xurl.go:15.16,17.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xurl/xurl.go:19.2,23.62 3 1
@@ -124,11 +129,6 @@ git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xmiddleware/panic.go:32.3,32.23 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xmiddleware/xmiddleware.go:7.95,8.41 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xmiddleware/xmiddleware.go:8.41,10.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xmiddleware/xmiddleware.go:12.2,12.16 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:18.54,25.29 2 1
-git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:25.29,28.52 2 1
-git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:28.52,31.19 2 1
-git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:31.19,33.5 1 1
-git.sr.ht/~jamesponddotco/xstd-go/xnet/xhttp/xhttputil/xhttputil.go:37.2,37.51 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xos/env.go:14.42,16.27 2 1
 git.sr.ht/~jamesponddotco/xstd-go/xos/env.go:16.27,18.3 1 1
 git.sr.ht/~jamesponddotco/xstd-go/xos/env.go:20.2,20.14 1 1

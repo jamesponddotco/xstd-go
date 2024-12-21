@@ -64,7 +64,7 @@ func TestMetadata_Usage(t *testing.T) {
 			want: "NAME:\n   myapp - does cool things\n\n" +
 				"USAGE:\n   myapp [global options]\n\n" +
 				"VERSION:\n   1.0.0\n\n" +
-				"GLOBAL OPTIONS:\n\n" +
+				"GLOBAL OPTIONS:\n" +
 				"   --config <FILE>, -c <FILE>  config file path (default: /etc/myapp.conf)\n",
 		},
 		{
@@ -97,7 +97,7 @@ func TestMetadata_Usage(t *testing.T) {
 			want: "NAME:\n   myapp - does cool things\n\n" +
 				"USAGE:\n   myapp [global options]\n\n" +
 				"VERSION:\n   1.0.0\n\n" +
-				"GLOBAL OPTIONS:\n\n" +
+				"GLOBAL OPTIONS:\n" +
 				"   --config <FILE>, -c <FILE>    config file path (default: /etc/myapp.conf)\n" +
 				"   --verbose, -v                 enable verbose logging\n" +
 				"   --port <NUMBER>, -p <NUMBER>  server port\n",
