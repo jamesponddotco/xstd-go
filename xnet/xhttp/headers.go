@@ -42,6 +42,7 @@ const (
 	ProxyAuthenticate             string = "Proxy-Authenticate"
 	ProxyAuthorization            string = "Proxy-Authorization"
 	PublicKeyPins                 string = "Public-Key-Pins"
+	RequestID                     string = "Request-Id"
 	RetryAfter                    string = "Retry-After"
 	Referer                       string = "Referer"
 	Server                        string = "Server"
