@@ -1,6 +1,7 @@
 package xmiddleware
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 
@@ -11,10 +12,12 @@ import (
 // was one.
 func PanicRecovery(logger *slog.Logger, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
+		ctx := r.Context()
+
+		defer func(ctx context.Context) {
 			if err := recover(); err != nil {
 				logger.LogAttrs(
-					r.Context(),
+					ctx,
 					slog.LevelError,
 					"panic recovered",
 					slog.Any("error", err),
@@ -25,9 +28,9 @@ func PanicRecovery(logger *slog.Logger, next http.Handler) http.Handler {
 					Message: "Internal server error. Please try again later.",
 				}
 
-				response.Write(r.Context(), logger, w)
+				response.Write(ctx, logger, w)
 			}
-		}()
+		}(ctx)
 
 		next.ServeHTTP(w, r)
 	})
