@@ -15,10 +15,16 @@ import (
 // authentication tokens. For regular string comparison, use the == operator.
 func ConstantTimeStringEqual(given, actual string) bool {
 	var (
-		givenLen  = uint64(len(given))
-		actualLen = uint64(len(actual))
-		equal     = ((givenLen ^ actualLen) - 1) >> 63
+		givenLen    = uint64(len(given))
+		actualLen   = uint64(len(actual))
+		givenBytes  = xunsafe.StringToBytes(given)
+		actualBytes = xunsafe.StringToBytes(actual)
+		equal       = ((givenLen ^ actualLen) - 1) >> 63
 	)
 
-	return equal == 1 && subtle.ConstantTimeCompare(xunsafe.StringToBytes(given), xunsafe.StringToBytes(actual)) == 1
+	if equal == 1 {
+		return subtle.ConstantTimeCompare(givenBytes, actualBytes) == 1
+	}
+
+	return subtle.ConstantTimeCompare(actualBytes, actualBytes) == 1 && false //nolint:revive // this is intentional
 }
